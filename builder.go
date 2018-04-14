@@ -1,0 +1,84 @@
+package failure
+
+import (
+	"fmt"
+)
+
+// Builder helps build an error
+type Builder interface {
+	WithField(name string, value interface{}) Builder
+	WithFields(fields Fields) Builder
+	ParentOf(inner error) Builder
+	Done() error
+}
+
+// Impersonator gives the ability to work with external error types
+// that implement this interface.
+type Impersonator interface {
+	Error() string
+	Impersonate(b Builder)
+}
+
+type builder struct {
+	n *node
+}
+
+// Done returns the new built error
+func (b *builder) Done() error {
+	return b.n
+}
+
+// WithField adds a field named name with the value value to
+// the error
+func (b *builder) WithField(name string, value interface{}) Builder {
+
+	if name == MessageField {
+		b.n.Message = fmt.Sprintf("%v", value)
+		return b
+	}
+
+	if b.n.Fields == nil {
+		b.n.Fields = make(Fields)
+	}
+
+	b.n.Fields[name] = value
+
+	return b
+}
+
+// WithFields adds fields to the error
+func (b *builder) WithFields(fields Fields) Builder {
+
+	if fields == nil {
+		return b
+	}
+
+	if message, found := fields[MessageField]; found {
+		b.n.Message = fmt.Sprintf("%v", message)
+		delete(fields, MessageField)
+	}
+
+	if b.n.Fields == nil {
+		b.n.Fields = fields
+	} else {
+		for k, v := range fields {
+			b.n.Fields[k] = v
+		}
+	}
+
+	return b
+}
+
+// ParentOf sets the new error to be the parent of inner
+func (b *builder) ParentOf(inner error) Builder {
+
+	var n *node
+
+	if inner != nil {
+		n = impersonate(inner)
+	}
+
+	b.n.Inner = n
+
+	return b
+}
