@@ -1,19 +1,10 @@
 # **failure**
 
-**failure** is an error-handling package for [golang](https://golang.org/).
+**failure** is an error handling package for [golang](https://golang.org/).
 
 
 
-**failure** is "compatible" with the *[errors.New](https://golang.org/pkg/errors/#example_New)* and *[fmt.Errorf](https://golang.org/pkg/errors/#example_New_errorf)* functions:
-
-```go
-	err0 := failure.New("something went wrong")
-	err1 := failure.Errorf("something went %s wrong", "terribly")
-```
-
-
-
-Use **failure** to construct fielded errors:
+With **failure** you can construct fielded errors:
 
 ```go
 	err := failure.Build("something went wrong").
@@ -30,6 +21,15 @@ Use **failure** to construct fielded errors:
 	// there's also a fields getter:
 	v0, e0 := failure.Field(err, "severity") // v0 == "fatal", e0 == nil
 	v1 := failure.FieldOrDefault(err, "e", "mc^2") // v1 == "mc^2"
+```
+
+
+
+**failure** is "compatible" with the *[errors.New](https://golang.org/pkg/errors/#example_New)* and *[fmt.Errorf](https://golang.org/pkg/errors/#example_New_errorf)* functions:
+
+```go
+	err0 := failure.New("something went wrong")
+	err1 := failure.Errorf("something went %s wrong", "terribly")
 ```
 
 
