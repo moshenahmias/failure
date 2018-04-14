@@ -160,7 +160,7 @@ func (e *extErr) Impersonate(b failure.Builder) {
     b.WithField("id", 1)
 }
 
-func Test015(t *testing.T) {
+func main() {
 
 	ext := extErr("something went terribly wrong")
 
