@@ -15,7 +15,7 @@ type Builder interface {
 // Impersonator gives the ability to work with external error types
 // that implement this interface.
 type Impersonator interface {
-	Error() string
+	error
 	Impersonate(b Builder)
 }
 
@@ -58,7 +58,7 @@ func (b *builder) WithFields(fields Fields) Builder {
 		delete(fields, MessageField)
 	}
 
-	if b.n.Fields == nil {
+	if len(b.n.Fields) == 0 {
 		b.n.Fields = fields
 	} else {
 		for k, v := range fields {
