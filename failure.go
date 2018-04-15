@@ -116,14 +116,20 @@ func Origin(err error) error {
 }
 
 // IsParentOf returns true only if inner is a descendant of err.
-func IsParentOf(err error, inner error) bool {
+func IsParentOf(err, inner error) bool {
 	return impersonate(err).isParentOf(impersonate(inner))
 }
 
 // Same returns true only if err0 and err1 have the same message, same fields
 // and their values and same descendants.
-func Same(err0 error, err1 error) bool {
+func Same(err0, err1 error) bool {
 	return impersonate(err0).same(impersonate(err1))
+}
+
+// Like returns true only if err0 and err1 have the same message
+// or both nil.
+func Like(err0, err1 error) bool {
+	return impersonate(err0).like(impersonate(err1))
 }
 
 // Message returns err's message field.

@@ -9,6 +9,11 @@ const (
 	MessageField = "message"
 )
 
+var (
+	// ErrNoSuchField means the field does not exist
+	ErrNoSuchField = New("failure: no such field")
+)
+
 // Fields is a map of error key value data pairs
 type Fields map[string]interface{}
 
@@ -129,6 +134,19 @@ func (n *node) same(other *node) bool {
 	return true
 }
 
+func (n *node) like(other *node) bool {
+
+	if n == other {
+		return true
+	}
+
+	if n == nil || other == nil {
+		return false
+	}
+
+	return n.Message == other.Message
+}
+
 func (n *node) copy() *node {
 
 	if n == nil {
@@ -193,5 +211,5 @@ func impersonate(err error) *node {
 }
 
 func newNoSuchFieldError(name string) error {
-	return Build("no such field").WithField("name", name).Done()
+	return Buildc(ErrNoSuchField).WithField("name", name).Done()
 }
