@@ -283,6 +283,26 @@ func Test011(t *testing.T) {
 		WithFields(Fields{"id": 20}).
 		Done()
 
+	if !Like(err0, err1) {
+		t.Fatalf("!Like(err0, err1)")
+	}
+
+	if !Like(err0, err2) {
+		t.Fatalf("!Like(err0, err2)")
+	}
+
+	if !Like(err0, err3) {
+		t.Fatalf("!Like(err0, err3)")
+	}
+
+	if Like(err0, err6) {
+		t.Fatalf("Like(err0, err6)")
+	}
+
+	if !Like(err0, err7) {
+		t.Fatalf("!Like(err0, err7)")
+	}
+
 	if !Same(err0, err1) {
 		t.Fatalf("!Same(err0, err1)")
 	}
