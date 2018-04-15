@@ -1,6 +1,10 @@
 # **failure**
 
-**failure** is an error handling package for [golang](https://golang.org/).
+**failure** is an error handling package for [Go](https://golang.org/).
+
+
+
+![](failure.png)
 
 
 
@@ -143,7 +147,7 @@ b10 := failure.Like(err0, err5) // b10 == false
 package mypkg
 
 var (
-	ErrInvalidValue = New("mypkg: invalid value")
+	ErrInvalidValue = failure.New("mypkg: invalid value")
 )
 
 func isValid(val string) bool {
@@ -156,9 +160,9 @@ func Foo(val string) error {
         return nil
     }
     
-    return Buildc(ErrInvalidValue).
-    		WithField("value", val).
-    		Done()
+    return failure.Buildc(ErrInvalidValue).
+    				WithField("value", val).
+    				Done()
 }
 
 package main
