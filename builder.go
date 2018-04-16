@@ -32,6 +32,10 @@ func (b *builder) Done() error {
 // the error
 func (b *builder) WithField(name string, value interface{}) Builder {
 
+	if name == "" {
+		return b
+	}
+
 	if name == MessageField {
 		b.n.Message = fmt.Sprintf("%v", value)
 		return b
@@ -54,6 +58,10 @@ func (b *builder) WithFields(fields Fields) Builder {
 	}
 
 	for k, v := range fields {
+
+		if k == "" {
+			continue
+		}
 
 		if k == MessageField {
 			b.n.Message = fmt.Sprintf("%v", v)
