@@ -10,8 +10,11 @@ const (
 )
 
 var (
-	// ErrNoSuchField means the field does not exist
+	// ErrNoSuchField returned if the field does not exist
 	ErrNoSuchField = New("failure: no such field")
+
+	// ErrInvalidFieldName returned if the field name is empty
+	ErrInvalidFieldName = New("failure: invalid field name")
 )
 
 // Fields is a map of error key value data pairs
@@ -70,7 +73,7 @@ func (n *node) origin() *node {
 func (n *node) field(name string) (interface{}, error) {
 
 	if name == "" {
-		return nil, New("invalid field name")
+		return nil, ErrInvalidFieldName
 	}
 
 	if n == nil {
@@ -127,11 +130,7 @@ func (n *node) same(other *node) bool {
 		other = other.Inner
 	}
 
-	if (n == nil && other != nil) || (n != nil && other == nil) {
-		return false
-	}
-
-	return true
+	return (n != nil || other == nil) && (n == nil || other != nil)
 }
 
 func (n *node) like(other *node) bool {

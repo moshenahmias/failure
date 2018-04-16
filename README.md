@@ -16,7 +16,7 @@ err := failure.Build("something went wrong").
 		WithField("severity", "fatal").
 		Done()
 
-// you can test for fields existence and value the followng way:
+// you can test for fields value the followng way:
 b0 := failure.TestField(err, "id", 5) // b0 == true
 b1 := failure.TestField(err, "severity", "normal") // b1 == false
 b2 := failure.TestField(err, "message", "something went wrong") // b2 == true
@@ -171,7 +171,7 @@ func main() {
 
     err := mypkg.Foo("all your base are belong to us");
     
-    // dont do:
+    // don't do:
     if err == mypkg.ErrInvalidValue {
         ...
     }
@@ -218,8 +218,8 @@ func main() {
 	ext := extErr("something went terribly wrong")
 
 	err := failure.Build("something went wrong").
-    		ParentOf(&ext).
-    		Done()
+    			ParentOf(&ext).
+    			Done()
 
     msg := failure.Message(failure.Origin(err)) // msg == "everything is wrong"
 }

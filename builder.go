@@ -49,19 +49,20 @@ func (b *builder) WithField(name string, value interface{}) Builder {
 // WithFields adds fields to the error
 func (b *builder) WithFields(fields Fields) Builder {
 
-	if fields == nil {
+	if fields == nil || len(fields) == 0 {
 		return b
 	}
 
-	if message, found := fields[MessageField]; found {
-		b.n.Message = fmt.Sprintf("%v", message)
-		delete(fields, MessageField)
-	}
+	for k, v := range fields {
 
-	if len(b.n.Fields) == 0 {
-		b.n.Fields = fields
-	} else {
-		for k, v := range fields {
+		if k == MessageField {
+			b.n.Message = fmt.Sprintf("%v", v)
+		} else {
+
+			if b.n.Fields == nil {
+				b.n.Fields = make(Fields)
+			}
+
 			b.n.Fields[k] = v
 		}
 	}
