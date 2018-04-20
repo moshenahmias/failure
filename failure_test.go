@@ -466,3 +466,25 @@ func Test015(t *testing.T) {
 		t.Fatalf("%s != everything is wrong", msg)
 	}
 }
+
+func Test016(t *testing.T) {
+
+	err2 := Build("something went wrong 2").
+		WithField("id", 1).
+		WithField("type", "fatal").
+		Done()
+
+	err1 := Build("something went wrong 1").
+		WithField("type", "normal").
+		ParentOf(err2).
+		Done()
+
+	err0 := Build("something went wrong 0").
+		WithField("id", 5).
+		ParentOf(err1).
+		Done()
+
+	if Depth(err0) != 3 {
+		t.Fatal("Depth(err0) != 3")
+	}
+}

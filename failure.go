@@ -141,3 +141,8 @@ func Message(err error) string {
 
 	return impersonate(err).Message
 }
+
+// Depth returns the count of err and its descendants
+func Depth(err error) int {
+	return impersonate(err).depth()
+}

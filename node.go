@@ -185,6 +185,18 @@ func (n *node) copy() *node {
 	return r
 }
 
+func (n *node) depth() int {
+
+	var d int
+
+	for n != nil {
+		n = n.Inner
+		d++
+	}
+
+	return d
+}
+
 func impersonate(err error) *node {
 
 	if err == nil {
