@@ -488,3 +488,14 @@ func Test016(t *testing.T) {
 		t.Fatal("Depth(err0) != 3")
 	}
 }
+
+func Test017(t *testing.T) {
+
+	err := Buildc(New("something went wrong")).
+		WithMessage("something went terribly wrong").
+		Done()
+
+	if Message(err) != "something went terribly wrong" {
+		t.Fatal("Message(err) != \"something went terribly wrong\"")
+	}
+}

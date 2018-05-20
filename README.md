@@ -142,8 +142,13 @@ b7 := failure.Same(err3, err4) // b7 == false
 b8 := failure.Like(err0, err1) // b8 == true
 b9 := failure.Like(err0, err3) // b9 == true
 b10 := failure.Like(err0, err5) // b10 == false
+```
 
-// using Like + Buildc is very common with package-level errors:
+
+
+Using Like + Buildc is very common with package-level errors:
+
+```go
 package mypkg
 
 var (

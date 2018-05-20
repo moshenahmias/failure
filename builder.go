@@ -8,6 +8,8 @@ import (
 type Builder interface {
 	WithField(name string, value interface{}) Builder
 	WithFields(fields Fields) Builder
+	WithMessage(message string) Builder
+	WithMessagef(format string, a ...interface{}) Builder
 	ParentOf(inner error) Builder
 	Done() error
 }
@@ -90,4 +92,16 @@ func (b *builder) ParentOf(inner error) Builder {
 	b.n.Inner = n
 
 	return b
+}
+
+// WithMessage sets the error's message
+func (b *builder) WithMessage(message string) Builder {
+	b.n.Message = message
+	return b
+}
+
+// WithMessagef formats the error's message according to
+// a format specifier
+func (b *builder) WithMessagef(format string, a ...interface{}) Builder {
+	return b.WithMessage(fmt.Sprintf(format, a...))
 }

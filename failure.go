@@ -123,12 +123,30 @@ func IsParentOf(err, inner error) bool {
 // Same returns true only if err0 and err1 have the same message, same fields
 // and their values and same descendants.
 func Same(err0, err1 error) bool {
+
+	if err0 == nil && err1 == nil {
+		return true
+	}
+
+	if err0 == nil || err1 == nil {
+		return false
+	}
+
 	return impersonate(err0).same(impersonate(err1))
 }
 
 // Like returns true only if err0 and err1 have the same message
 // or both nil.
 func Like(err0, err1 error) bool {
+
+	if err0 == nil && err1 == nil {
+		return true
+	}
+
+	if err0 == nil || err1 == nil {
+		return false
+	}
+
 	return impersonate(err0).like(impersonate(err1))
 }
 
@@ -142,7 +160,7 @@ func Message(err error) string {
 	return impersonate(err).Message
 }
 
-// Depth returns the count of err and its descendants
+// Depth returns the count for err and its descendants
 func Depth(err error) int {
 	return impersonate(err).depth()
 }
